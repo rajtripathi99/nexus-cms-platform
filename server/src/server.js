@@ -1,7 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import connectDB from './config/database.js';  // ← Note the .js extension
+import connectDB from './config/database.js';
+import authRoutes from './routes/authRoutes.js';
+import blogRoutes from './routes/blogRoutes.js';
+import serviceRoutes from './routes/serviceRoutes.js';
+import contactRoutes from './routes/contactRoutes.js';
 
 dotenv.config();
 
@@ -13,17 +17,21 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/blogs', blogRoutes);
+app.use('/api/services', serviceRoutes);
+app.use('/api/contacts', contactRoutes);
+
 // Test route
 app.get('/', (req, res) => {
-    res.json({ message: 'API is running' });
+  res.json({ message: 'API is running' });
 });
 
-
 connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-    });
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 }).catch((error) => {
-    console.error('MongoDB connection error:', error);
-    process.exit(1);
+  console.log(error);
 });
