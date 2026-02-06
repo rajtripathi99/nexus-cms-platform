@@ -23,11 +23,6 @@ app.use('/api/blogs', blogRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/contacts', contactRoutes);
 
-// Test route
-app.get('/', (req, res) => {
-  res.json({ message: 'API is running' });
-});
-
 connectDB().then(() => {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
